@@ -1,37 +1,61 @@
 import React from "react";
 import { useState } from "react";
+import TodoList from "./TodoList"
+import Todo from "./Todo"
 
 
-function Form( onAddTodo) {
 
-  const [form, setForm] = useState('')
+function Form({ addNewTodo }) {
+  const [todos, setTodos] = useState("");
+
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
+  const [id, setId] = useState("");
+
+  function handleAddTodo(newTodo) {
+    const updatedTodo = [...todos, newTodo];
+    setTodos(updatedTodo)
+  }
+  
 
   function handleSubmit(e) {
-    e.preventDefault();
-    console.log('You clicked submit.');
-  }
+    // e.preventDefault();
 
-
-  
+    fetch('http://localhost:9292/todos', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ 
+        name:name,
+        status: status,
+        list_id: id
+        
+      }),
+      })
+      .then(r => r.json())
+      .then(newTodo => handleAddTodo(newTodo))
+    }
+        
+     
+    
   return (
-    <form >
-      <h2 className="label-wrapper">
-        <label htmlFor="new-todo-input" className="label__lg">
-          What ya got ToDo?
-        </label>
-      </h2>
-      <input
-        type="text"
-        id="new-todo-input"
-        className="input input__lg"
-        name="text"
-        autoComplete="off"
-      />
-      <button onClick={handleSubmit} type="submit" className="btn btn__primary btn__lg">
-        Add
-      </button>
-    </form>
+
+    <div className="new-plant-form">
+      <h2>New Todo</h2>
+      <form onSubmit={handleSubmit} >
+        <input 
+          onChange={e => setName(e.target.value)} 
+          type="text" 
+          name="name" 
+          value={name}
+          placeholder="Todo" 
+        />
+        <button type="submit">Add Todo</button>
+      </form>
+    </div>
   );
 }
+
 
 export default Form;

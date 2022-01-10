@@ -1,60 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
+function Todo({ todo, onDeleteTodo }) {
 
-
-
-
-function Todo(todos) {
-
+  const { id, name } = todo;
+  const [todos, setTodos] = useState([]);
     
 
-
-    function handleEdit(e) {
-        e.preventDefault();
-        console.log('You clicked edit.');
-      }
-
-      function handleDelete(e) {
-        e.preventDefault();
+      function handleDelete() {
         
         
-        console.log('You clicked delete.');
-      }
+  
+     
+          fetch(`http://localhost:9292/todo/${id}` ,  {
+            method: "DELETE",
+          })
+          onDeleteTodo(id);
+        }
+      function handleEdit() {
+        
+        
+  
+     
+          fetch(`http://localhost:9292/todo/${id}` ,  {
+            method: "POST",
+          })
+          (id);
+        }
 
-      function handleCheck(e) {
-        e.preventDefault();
-        console.log('You clicked checked.');
-      }
-    
-
+  
     return (
-      <li className="todo stack-small">
-       <div className="c-cb">
-           <input id={todos.id} onClick={handleCheck} type="checkbox" defaultChecked={todos.status} />
-           <label className="todo-label" htmlFor={todos.id}>
-               {todos.name}
-           </label>
-        </div>
-        <div className="btn-group">
-          <button onClick={handleEdit} type="button" className="btn">
-            Edit <span className="visually-hidden">{todos.name}</span>
-          </button>
-          <button onClick={handleDelete} type="button" className="btn btn__danger">
-            Delete <span className="visually-hidden">{todos.name}</span>
-          </button>
-        </div>
+      <li>       
+         <h1>{name} </h1>
+       <button onClick={handleDelete}>Delete</button>
+       <button onClick={handleEdit}>Edit</button>
       </li>
-    );
+      );
   }
+      
 
 
   export default Todo;
 
 
-
-
-
-
-
-
-    

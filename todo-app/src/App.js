@@ -40,7 +40,7 @@ function App() {
         J & M Todo List Project
       </h1>
       <Form onAddTodo={handleAddTodo}/>
-      <FilterButton/>
+      {/* <FilterButton/> */}
       <TodoList
         todos={displayTodos}
         onDeleteTodo={handleDelete}

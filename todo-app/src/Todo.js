@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 function Todo({ todo, onDeleteTodo, updateTodo }) {
 
-  const { id, name } = todo;
+  const { id, name, status } = todo;
   const [todos, setTodos] = useState([]);
   const [showForm, setShowForm] = useState(false)
   const [newTodo, setTodo] = useState("")
@@ -29,12 +29,22 @@ function Todo({ todo, onDeleteTodo, updateTodo }) {
             .then(r => r.json())
             .then(updatedTodo => updateTodo(updatedTodo))
         }
+      function handle(e) {
+          fetch(`http://localhost:9292/todo/${id}` ,  {
+            method: "PATCH",
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({name: newTodo})
+          })
+            .then(r => r.json())
+            .then(updatedTodo => updateTodo(updatedTodo))
+        }
           
 
   
     return (
       <li>       
          <h1>{name} </h1>
+         <input id={id} type="checkbox" defaultChecked={status} />
        <button onClick={handleDelete}>Delete</button>
        <button onClick={() => setShowForm(!showForm)} >Edit Todo</button>
        { showForm ? <form onSubmit={handleEdit}>

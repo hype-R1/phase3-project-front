@@ -51,6 +51,7 @@ function Form({ addNewTodo }) {
           value={name}
           placeholder="Todo" 
         />
+        <input id={id} type="checkbox"  />
         <button type="submit">Add Todo</button>
       </form>
     </div>
